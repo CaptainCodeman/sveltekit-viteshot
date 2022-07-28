@@ -1,5 +1,7 @@
 const playwrightShooter = require("viteshot/shooters/playwright");
 const playwright = require("playwright");
+const vite = require("vite");
+const path = require("path")
 
 module.exports = {
   framework: {
@@ -7,14 +9,17 @@ module.exports = {
   },
   shooter: playwrightShooter(playwright.chromium, {
     contexts: {
-      laptop: {
-        viewport: {
-          width: 1366,
-          height: 768,
-        },
-      },
-      pixel2: playwright.devices["Pixel 2"],
+      ipad: playwright.devices["iPad (gen 6)"],
+      chrome: playwright.devices["Desktop Chrome"],
+      pixel4a: playwright.devices["Pixel 4a (5G)"],
     },
   }),
   filePathPattern: "**/*.screenshot.@(js|jsx|tsx|vue|svelte)",
+  vite: vite.defineConfig({
+    resolve: {
+      alias: {
+        "$lib": path.resolve(__dirname, "./lib"),
+      }
+    }
+  }),
 };
